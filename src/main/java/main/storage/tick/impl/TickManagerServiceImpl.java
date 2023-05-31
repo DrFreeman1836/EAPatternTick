@@ -1,10 +1,10 @@
-package main.storage.impl;
+package main.storage.tick.impl;
 
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 import main.model.Tick;
-import main.storage.ManagerTicks;
+import main.storage.tick.ManagerTicks;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -9,9 +9,10 @@ import java.util.Map.Entry;
 import main.dto.SettingDto;
 import main.dto.SettingPatternsDto;
 import main.service.PatternPrice;
-import main.storage.ManagerTicks;
+import main.service.direction.DirectionService;
+import main.storage.tick.ManagerTicks;
 import main.telegram.impl.TelegramBotMessages;
-import main.storage.impl.TickManagerServiceImpl;
+import main.storage.tick.impl.TickManagerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -35,12 +36,19 @@ public class Controller {
 
   private PatternPrice multiPattern;
 
+  private DirectionService directionService;
+
   private TelegramBotMessages bot;
 
   @Autowired
   @Qualifier("tickManagerServiceImpl")
   public void setTickManagerService(TickManagerServiceImpl tickManagerService) {
     this.tickManagerService = tickManagerService;
+  }
+
+  @Autowired
+  public void setDirectionService(DirectionService directionService) {
+    this.directionService = directionService;
   }
 
   @Autowired
@@ -157,6 +165,16 @@ public class Controller {
       return ResponseEntity.status(500).build();
     }
     return ResponseEntity.status(405).build();
+  }
+
+  @GetMapping("/signal")
+  public ResponseEntity<?> getDirection(
+      @RequestParam(name = "priceAsk") BigDecimal priceAsk,
+      @RequestParam(name = "priceBid") BigDecimal priceBid,
+      @RequestParam(name = "diffTime") Long diffTime) {
+    int res = directionService.getDirection(priceAsk, priceBid, diffTime).getResponseCode();
+    if (res != 404) bot.sendMessage(String.valueOf(res) + " новый активный");
+    return ResponseEntity.status(res).build();
   }
 
 }

@@ -2,7 +2,7 @@ package main.service.impl.passivity;
 
 import java.util.HashMap;
 import main.service.AbstractPatternPassivity;
-import main.storage.impl.TickManagerServiceImpl;
+import main.storage.tick.impl.TickManagerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

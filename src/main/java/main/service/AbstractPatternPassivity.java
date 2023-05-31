@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import main.enam.TypeSignalPassivity;
 import main.model.Tick;
-import main.storage.impl.TickManagerServiceImpl;
+import main.storage.tick.impl.TickManagerServiceImpl;
 
 public abstract class AbstractPatternPassivity implements PatternPrice {
 

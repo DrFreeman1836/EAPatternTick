@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import main.enam.TypeSignalActivity;
 import main.model.Tick;
-import main.storage.impl.TickManagerServiceImpl;
+import main.storage.tick.impl.TickManagerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

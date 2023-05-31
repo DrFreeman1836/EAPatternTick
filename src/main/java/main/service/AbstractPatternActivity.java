@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Map;
 import main.enam.TypeSignalActivity;
 import main.model.Tick;
-import main.storage.impl.TickManagerServiceImpl;
+import main.storage.response.ResponseStorage;
+import main.storage.tick.impl.TickManagerServiceImpl;
 
 public abstract class AbstractPatternActivity implements PatternPrice {
 
@@ -34,8 +35,11 @@ public abstract class AbstractPatternActivity implements PatternPrice {
 
   private TickManagerServiceImpl tickManagerService;
 
-  public AbstractPatternActivity(TickManagerServiceImpl tickManagerService) {
+  protected ResponseStorage responseStorage;
+
+  public AbstractPatternActivity(TickManagerServiceImpl tickManagerService, ResponseStorage responseStorage) {
     this.tickManagerService = tickManagerService;
+    this.responseStorage = responseStorage;
   }
 
   public void setParams(HashMap<String, Number> params) {

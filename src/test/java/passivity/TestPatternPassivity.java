@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import main.model.Tick;
 import main.service.impl.passivity.PassivityPattern;
-import main.storage.impl.TickManagerServiceImpl;
-import org.junit.Assert;
+import main.storage.tick.impl.TickManagerServiceImpl;
 import org.junit.Before;
-import org.junit.Test;
 
 public class TestPatternPassivity {
 

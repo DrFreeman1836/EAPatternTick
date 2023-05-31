@@ -1,4 +1,4 @@
-package main.storage;
+package main.storage.tick;
 
 import java.math.BigDecimal;
 import java.util.List;

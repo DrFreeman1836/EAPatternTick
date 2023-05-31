@@ -3,7 +3,7 @@ package storage;
 import java.math.BigDecimal;
 import java.util.List;
 import main.model.Tick;
-import main.storage.impl.TickManagerServiceImpl;
+import main.storage.tick.impl.TickManagerServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
