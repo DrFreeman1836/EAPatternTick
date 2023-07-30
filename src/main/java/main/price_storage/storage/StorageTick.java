@@ -7,6 +7,6 @@ import main.price_storage.dto.TickDto;
  */
 public interface StorageTick {
 
-  void processingTick(TickDto tickDto) throws Exception;
+  void processingTick(TickDto tickDto, Long timestamp) throws Exception;
 
 }

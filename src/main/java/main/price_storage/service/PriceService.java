@@ -29,7 +29,7 @@ public class PriceService {
   public void addPrice(byte[] msg) throws Exception {
 
     TickDto tick = mapper.readValue(msg, TickDto.class);
-    storageTickImpl.processingTick(tick);
+    storageTickImpl.processingTick(tick, System.currentTimeMillis());
     addTick(tick);
 
     if (listTick.size() >= COUNT_TICK) {

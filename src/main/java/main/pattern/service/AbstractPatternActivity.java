@@ -61,13 +61,19 @@ public abstract class AbstractPatternActivity implements PatternPrice {
       return TypeSignalActivity.ERROR.getResponseCode();
     }
     getSelection();
-    if (checkPatternAll()) {
+
+    if (maxTime - minTime >= time) {
+      return TypeSignalActivity.NO_PATTERN.getResponseCode();
+    }
+    boolean patternAsk = checkPatternAsk();
+    boolean patternBid = checkPatternBid();
+    if (patternAsk && patternBid) {
       return TypeSignalActivity.ALL.getResponseCode();
     }
-    if (checkPatternAsk()) {
+    if (patternAsk) {
       return TypeSignalActivity.ASK.getResponseCode();
     }
-    if (checkPatternBid()) {
+    if (patternBid) {
       return TypeSignalActivity.BID.getResponseCode();
     }
     return TypeSignalActivity.NO_PATTERN.getResponseCode();
@@ -98,28 +104,13 @@ public abstract class AbstractPatternActivity implements PatternPrice {
   }
 
   private boolean checkPatternAsk() {
-    if (maxPriceAsk.subtract(minPriceAsk).compareTo(deltaMaxAsk) <= 0//deltaMaxAsk
-        && maxPriceAsk.subtract(minPriceAsk).compareTo(deltaMinAsk) >= 0//deltaMinAsk
-        && maxTime - minTime < time) {//time
-      return true;
-    }
-    return false;
+    BigDecimal diffPriceAsk = maxPriceAsk.subtract(minPriceAsk);
+    return diffPriceAsk.compareTo(deltaMaxAsk) <= 0 && diffPriceAsk.compareTo(deltaMinAsk) >= 0;
   }
 
   private boolean checkPatternBid() {
-    if (maxPriceBid.subtract(minPriceBid).compareTo(deltaMaxBid) <= 0//deltaMaxBid
-        && maxPriceBid.subtract(minPriceBid).compareTo(deltaMinBid) >= 0//deltaMinBid
-        && maxTime - minTime < time) {//time
-      return true;
-    }
-    return false;
-  }
-
-  private boolean checkPatternAll() {
-    if (checkPatternAsk() && checkPatternBid()) {
-      return true;
-    }
-    return false;
+    BigDecimal diffPriceBid = maxPriceBid.subtract(minPriceBid);
+    return diffPriceBid.compareTo(deltaMaxBid) <= 0 && diffPriceBid.compareTo(deltaMinBid) >= 0;
   }
 
 }

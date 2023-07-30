@@ -40,10 +40,11 @@ public abstract class AbstractPatternPassivity implements PatternPrice {
   }
 
   private void getSelection() {
+    listTicksSecondPeriod = tickManagerService.getListTickByTimeFromLastTick(timeSecond);
+
+    Long timeStartByFirstList = listTicksSecondPeriod.get(0).getTimestamp() - 1;
     listTicksFirstPeriod = tickManagerService.getListTickByTime
-        (System.currentTimeMillis() - timeSecond, System.currentTimeMillis() - timeSecond - timeFirst);
-    listTicksSecondPeriod = tickManagerService.getListTickByTime
-        (System.currentTimeMillis(), System.currentTimeMillis() - timeSecond);
+        (timeStartByFirstList, timeStartByFirstList - timeFirst);
   }
 
   private Boolean getPattern() {
