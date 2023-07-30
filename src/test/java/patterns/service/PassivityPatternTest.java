@@ -69,7 +69,9 @@ public class PassivityPatternTest {
         "countFirst", 5,
         "timeSecond", 20,
         "countSecond", 2)));
-    Assert.assertEquals(TypeSignalPassivity.YES_PATTERN.getResponseCode(), pattern.getResponse());
+    Assert.assertEquals(TypeSignalPassivity.YES_PATTERN.getResponseCode(), pattern.getResponse().pattern());
+    Assert.assertEquals(new BigDecimal("0.00014"), pattern.getResponse().price());
+    Assert.assertEquals("passivity", pattern.getResponse().type());
   }
 
   @Test
@@ -80,7 +82,9 @@ public class PassivityPatternTest {
         "countFirst", 6,
         "timeSecond", 20,
         "countSecond", 2)));
-    Assert.assertEquals(TypeSignalPassivity.NO_PATTERN.getResponseCode(), pattern.getResponse());
+    Assert.assertEquals(TypeSignalPassivity.NO_PATTERN.getResponseCode(), pattern.getResponse().pattern());
+    Assert.assertEquals(null, pattern.getResponse().price());
+    Assert.assertEquals("passivity", pattern.getResponse().type());
   }
 
   @Test
@@ -91,7 +95,9 @@ public class PassivityPatternTest {
         "countFirst", 5,
         "timeSecond", 20,
         "countSecond", 1)));
-    Assert.assertEquals(TypeSignalPassivity.NO_PATTERN.getResponseCode(), pattern.getResponse());
+    Assert.assertEquals(TypeSignalPassivity.NO_PATTERN.getResponseCode(), pattern.getResponse().pattern());
+    Assert.assertEquals(null, pattern.getResponse().price());
+    Assert.assertEquals("passivity", pattern.getResponse().type());
   }
 
 }

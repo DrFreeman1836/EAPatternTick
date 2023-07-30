@@ -8,25 +8,25 @@
   </appender>
 
   <appender name="tcpController" class="ch.qos.logback.core.FileAppender">
-    <file>ErrorTickProcessingByTcp.log</file>
+    <file>C:\Users\Admin\Desktop\ErrorTickProcessingByTcp.log</file>
     <encoder>
       <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
     </encoder>
   </appender>
   <appender name="controller" class="ch.qos.logback.core.FileAppender">
-    <file>Patterns.log</file>
+    <file>C:\Users\Admin\Desktop\Patterns.log</file>
     <encoder>
       <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
     </encoder>
   </appender>
   <appender name="notification" class="ch.qos.logback.core.FileAppender">
-    <file>Notification.log</file>
+    <file>C:\Users\Admin\Desktop\Notification.log</file>
     <encoder>
       <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
     </encoder>
   </appender>
   <appender name="settings" class="ch.qos.logback.core.FileAppender">
-    <file>Settings.log</file>
+    <file>C:\Users\Admin\Desktop\Settings.log</file>
     <encoder>
       <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
     </encoder>

@@ -58,7 +58,9 @@ public class MultiPatternTest {
         "deltaMinAsk", new BigDecimal("0.00001"),
         "deltaMaxBid", new BigDecimal("0.005"),
         "deltaMinBid", new BigDecimal("0.00001"))));
-    Assert.assertEquals(TypeSignalMulti.NO_PATTERN.getResponseCode(), pattern.getResponse());
+    Assert.assertEquals(TypeSignalMulti.NO_PATTERN.getResponseCode(), pattern.getResponse().pattern());
+    Assert.assertEquals(null, pattern.getResponse().price());
+    Assert.assertEquals("multi", pattern.getResponse().type());
   }
 
   @Test
@@ -74,7 +76,9 @@ public class MultiPatternTest {
         "deltaMinAsk", new BigDecimal("0.00001"),
         "deltaMaxBid", new BigDecimal("0.005"),
         "deltaMinBid", new BigDecimal("0.00001"))));
-    Assert.assertEquals(TypeSignalMulti.LOW_LEVEL.getResponseCode(), pattern.getResponse());
+    Assert.assertEquals(TypeSignalMulti.LOW_LEVEL.getResponseCode(), pattern.getResponse().pattern());
+    Assert.assertEquals(new BigDecimal("0.00014"), pattern.getResponse().price());
+    Assert.assertEquals("multi", pattern.getResponse().type());
   }
 
   @Test
@@ -90,7 +94,9 @@ public class MultiPatternTest {
         "deltaMinAsk", new BigDecimal("0.00001"),
         "deltaMaxBid", new BigDecimal("0.005"),
         "deltaMinBid", new BigDecimal("0.00001"))));
-    Assert.assertEquals(TypeSignalMulti.MIDDLE_LEVEL.getResponseCode(), pattern.getResponse());
+    Assert.assertEquals(TypeSignalMulti.MIDDLE_LEVEL.getResponseCode(), pattern.getResponse().pattern());
+    Assert.assertEquals(new BigDecimal("0.00014"), pattern.getResponse().price());
+    Assert.assertEquals("multi", pattern.getResponse().type());
   }
 
   @Test
@@ -106,12 +112,14 @@ public class MultiPatternTest {
         "deltaMinAsk", new BigDecimal("0.00001"),
         "deltaMaxBid", new BigDecimal("0.005"),
         "deltaMinBid", new BigDecimal("0.00001"))));
-    Assert.assertEquals(TypeSignalMulti.HIGH_LEVEL.getResponseCode(), pattern.getResponse());
+    Assert.assertEquals(TypeSignalMulti.HIGH_LEVEL.getResponseCode(), pattern.getResponse().pattern());
+    Assert.assertEquals(new BigDecimal("0.00014"), pattern.getResponse().price());
+    Assert.assertEquals("multi", pattern.getResponse().type());
   }
 
   @Test
   @Order(5)
-  public void noPatternHighLevelByDeltaMax() {
+  public void patternHighLevelByDeltaMax() {
     pattern.setParams(new HashMap<>(Map.of(
         "time", 151,
         "count", 1,
@@ -122,7 +130,9 @@ public class MultiPatternTest {
         "deltaMinAsk", new BigDecimal("0.00001"),
         "deltaMaxBid", new BigDecimal("0.00007"),
         "deltaMinBid", new BigDecimal("0.00001"))));
-    Assert.assertEquals(TypeSignalMulti.MIDDLE_LEVEL.getResponseCode(), pattern.getResponse());
+    Assert.assertEquals(TypeSignalMulti.MIDDLE_LEVEL.getResponseCode(), pattern.getResponse().pattern());
+    Assert.assertEquals(new BigDecimal("0.00014"), pattern.getResponse().price());
+    Assert.assertEquals("multi", pattern.getResponse().type());
   }
 
 }

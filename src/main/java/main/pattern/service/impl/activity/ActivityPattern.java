@@ -1,6 +1,7 @@
 package main.pattern.service.impl.activity;
 
 import java.util.HashMap;
+import main.pattern.dto.RsSignal.Signal;
 import main.pattern.service.AbstractPatternActivity;
 import main.price_storage.storage.impl.StorageTickImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,13 @@ public class ActivityPattern extends AbstractPatternActivity {
   }
 
   @Override
-  public int getResponse() {
+  public Signal getResponse() {
     return super.getResponse();
+  }
+
+  @Override
+  public String getPatternName() {
+    return "activity";
   }
 
   @Override

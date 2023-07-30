@@ -1,8 +1,10 @@
 package main.pattern.service;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import main.pattern.dto.RsSignal.Signal;
 import main.pattern.enam.TypeSignalPassivity;
 import main.price_storage.model.Tick;
 import main.price_storage.storage.impl.StorageTickImpl;
@@ -16,6 +18,8 @@ public abstract class AbstractPatternPassivity implements PatternPrice {
 
   protected List<Tick> listTicksFirstPeriod;
   protected List<Tick> listTicksSecondPeriod;
+
+  protected BigDecimal lastPrice;
 
   private final StorageTickImpl tickManagerService;
 
@@ -32,11 +36,11 @@ public abstract class AbstractPatternPassivity implements PatternPrice {
   }
 
   @Override
-  public int getResponse() {
+  public Signal getResponse() {
     getSelection();
     return getPattern().equals(Boolean.TRUE)
-        ? TypeSignalPassivity.YES_PATTERN.getResponseCode()
-        : TypeSignalPassivity.NO_PATTERN.getResponseCode();
+        ? new Signal(lastPrice, getPatternName(), TypeSignalPassivity.YES_PATTERN.getResponseCode(), null)
+        : new Signal(null, getPatternName(), TypeSignalPassivity.NO_PATTERN.getResponseCode(), null);
   }
 
   private void getSelection() {
@@ -45,6 +49,7 @@ public abstract class AbstractPatternPassivity implements PatternPrice {
     Long timeStartByFirstList = listTicksSecondPeriod.get(0).getTimestamp() - 1;
     listTicksFirstPeriod = tickManagerService.getListTickByTime
         (timeStartByFirstList, timeStartByFirstList - timeFirst);
+    this.lastPrice = listTicksSecondPeriod.get(listTicksSecondPeriod.size()-1).getBid();
   }
 
   private Boolean getPattern() {
@@ -60,6 +65,10 @@ public abstract class AbstractPatternPassivity implements PatternPrice {
     ));
   }
 
+  @Override
+  public String getPatternName() {
+    return "abstractPassivity";
+  }
 }
 /**
  залипание - Проверка на больше чем Ннное количество тиков в заданное колличество миллисекунд - если проверка пройдена

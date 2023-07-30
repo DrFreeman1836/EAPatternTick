@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import main.pattern.dto.RsSignal.Signal;
 import main.pattern.enam.TypeSignalActivity;
 import main.price_storage.model.Tick;
 import main.price_storage.storage.impl.StorageTickImpl;
@@ -34,6 +35,10 @@ public abstract class AbstractPatternActivity implements PatternPrice {
 
   private StorageTickImpl tickManagerService;
 
+  protected BigDecimal lastPriceAsk;
+
+  protected BigDecimal lastPriceBid;
+
   public AbstractPatternActivity(StorageTickImpl tickManagerService) {
     this.tickManagerService = tickManagerService;
   }
@@ -56,27 +61,27 @@ public abstract class AbstractPatternActivity implements PatternPrice {
         "deltaMinBid", deltaMinBid));
   }
 
-  public int getResponse() {
+  public Signal getResponse() {
     if (tickManagerService.sizeStorageTicks() < count) {//count
-      return TypeSignalActivity.ERROR.getResponseCode();
+      return new Signal(null, getPatternName(), TypeSignalActivity.ERROR.getResponseCode(), null);
     }
     getSelection();
 
     if (maxTime - minTime >= time) {
-      return TypeSignalActivity.NO_PATTERN.getResponseCode();
+      return new Signal(null, getPatternName(), TypeSignalActivity.NO_PATTERN.getResponseCode(), null);
     }
     boolean patternAsk = checkPatternAsk();
     boolean patternBid = checkPatternBid();
     if (patternAsk && patternBid) {
-      return TypeSignalActivity.ALL.getResponseCode();
+      return new Signal(lastPriceBid, getPatternName(), TypeSignalActivity.ALL.getResponseCode(), null);
     }
     if (patternAsk) {
-      return TypeSignalActivity.ASK.getResponseCode();
+      return new Signal(lastPriceAsk, getPatternName(), TypeSignalActivity.ASK.getResponseCode(), null);
     }
     if (patternBid) {
-      return TypeSignalActivity.BID.getResponseCode();
+      return new Signal(lastPriceBid, getPatternName(), TypeSignalActivity.BID.getResponseCode(), null);
     }
-    return TypeSignalActivity.NO_PATTERN.getResponseCode();
+    return new Signal(null, getPatternName(), TypeSignalActivity.NO_PATTERN.getResponseCode(), null);
   }
 
   private void getSelection() {
@@ -101,6 +106,8 @@ public abstract class AbstractPatternActivity implements PatternPrice {
     minTime = listTicks.stream()
         .min(Comparator.comparing(Tick::getTimestamp))
         .get().getTimestamp();
+    this.lastPriceAsk = listTicks.get(listTicks.size()-1).getAsk();
+    this.lastPriceBid = listTicks.get(listTicks.size()-1).getBid();
   }
 
   private boolean checkPatternAsk() {
@@ -113,4 +120,8 @@ public abstract class AbstractPatternActivity implements PatternPrice {
     return diffPriceBid.compareTo(deltaMaxBid) <= 0 && diffPriceBid.compareTo(deltaMinBid) >= 0;
   }
 
+  @Override
+  public String getPatternName() {
+    return "abstractActivity";
+  }
 }
