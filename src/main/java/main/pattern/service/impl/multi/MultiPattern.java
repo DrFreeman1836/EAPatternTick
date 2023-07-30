@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import main.pattern.dto.RsSignal.Signal;
 import main.pattern.enam.TypeSignalMulti;
 import main.pattern.service.AbstractPatternActivity;
 import main.price_storage.storage.impl.StorageTickImpl;
@@ -24,21 +25,26 @@ public class MultiPattern extends AbstractPatternActivity {
   }
 
   @Override
-  public int getResponse() {
+  public Signal getResponse() {
     setLevelSettings(HIGH_LEVEL);
-    if (checkResponse.contains(super.getResponse())) {
-      return TypeSignalMulti.HIGH_LEVEL.getResponseCode();
+    if (checkResponse.contains(super.getResponse().pattern())) {
+      return new Signal(lastPriceBid, getPatternName(), TypeSignalMulti.HIGH_LEVEL.getResponseCode(), null);
     }
     setLevelSettings(MIDDLE_LEVEL);
-    if (checkResponse.contains(super.getResponse())) {
-      return TypeSignalMulti.MIDDLE_LEVEL.getResponseCode();
+    if (checkResponse.contains(super.getResponse().pattern())) {
+      return new Signal(lastPriceBid, getPatternName(), TypeSignalMulti.MIDDLE_LEVEL.getResponseCode(), null);
     }
     setLevelSettings(LOW_LEVEL);
-    if (checkResponse.contains(super.getResponse())) {
-      return TypeSignalMulti.LOW_LEVEL.getResponseCode();
+    if (checkResponse.contains(super.getResponse().pattern())) {
+      return new Signal(lastPriceBid, getPatternName(), TypeSignalMulti.LOW_LEVEL.getResponseCode(), null);
     }
 
-    return TypeSignalMulti.NO_PATTERN.getResponseCode();
+    return new Signal(null, getPatternName(), TypeSignalMulti.NO_PATTERN.getResponseCode(), null);
+  }
+
+  @Override
+  public String getPatternName() {
+    return "multi";
   }
 
   private void setLevelSettings(Integer level) {

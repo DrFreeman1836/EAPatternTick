@@ -1,13 +1,15 @@
 package main.pattern.service;
 
 import java.util.HashMap;
-import java.util.Map;
+import main.pattern.dto.RsSignal.Signal;
 
 public interface PatternPrice {
 
   void setParams(HashMap<String, Number> params);
 
-  int getResponse();
+  Signal getResponse();
+
+  String getPatternName();
 
   HashMap<String, Number> getParams();
 

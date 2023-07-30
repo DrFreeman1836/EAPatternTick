@@ -1,6 +1,7 @@
 package main.pattern.service.impl.passivity;
 
 import java.util.HashMap;
+import main.pattern.dto.RsSignal.Signal;
 import main.pattern.service.AbstractPatternPassivity;
 import main.price_storage.storage.impl.StorageTickImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,13 @@ public class PassivityPattern extends AbstractPatternPassivity {
   }
 
   @Override
-  public int getResponse() {
+  public Signal getResponse() {
     return super.getResponse();
+  }
+
+  @Override
+  public String getPatternName() {
+    return "passivity";
   }
 
   @Override

@@ -50,7 +50,9 @@ public class ActivityPatternTest {
         "deltaMinAsk", new BigDecimal("0.00001"),
         "deltaMaxBid", new BigDecimal("0.005"),
         "deltaMinBid", new BigDecimal("0.00001"))));
-    Assert.assertEquals(404, pattern.getResponse());
+    Assert.assertEquals(404, pattern.getResponse().pattern());
+    Assert.assertEquals(null, pattern.getResponse().price());
+    Assert.assertEquals("activity", pattern.getResponse().type());
   }
 
   @Test
@@ -63,7 +65,9 @@ public class ActivityPatternTest {
         "deltaMinAsk", new BigDecimal("0.00001"),
         "deltaMaxBid", new BigDecimal("0.005"),
         "deltaMinBid", new BigDecimal("0.00001"))));
-    Assert.assertEquals(202, pattern.getResponse());
+    Assert.assertEquals(202, pattern.getResponse().pattern());
+    Assert.assertEquals(new BigDecimal("0.00012"), pattern.getResponse().price());
+    Assert.assertEquals("activity", pattern.getResponse().type());
   }
 
   @Test
@@ -76,7 +80,9 @@ public class ActivityPatternTest {
         "deltaMinAsk", new BigDecimal("0.00001"),
         "deltaMaxBid", new BigDecimal("0.005"),
         "deltaMinBid", new BigDecimal("0.00001"))));
-    Assert.assertEquals(400, pattern.getResponse());
+    Assert.assertEquals(400, pattern.getResponse().pattern());
+    Assert.assertEquals(null, pattern.getResponse().price());
+    Assert.assertEquals("activity", pattern.getResponse().type());
   }
 
   @Test
@@ -89,7 +95,9 @@ public class ActivityPatternTest {
         "deltaMinAsk", new BigDecimal("0.00001"),
         "deltaMaxBid", new BigDecimal("0.00001"),
         "deltaMinBid", new BigDecimal("0.00001"))));
-    Assert.assertEquals(200, pattern.getResponse());
+    Assert.assertEquals(200, pattern.getResponse().pattern());
+    Assert.assertEquals(new BigDecimal("0.00011"), pattern.getResponse().price());
+    Assert.assertEquals("activity", pattern.getResponse().type());
   }
 
   @Test
@@ -102,7 +110,9 @@ public class ActivityPatternTest {
         "deltaMinAsk", new BigDecimal("0.00005"),
         "deltaMaxBid", new BigDecimal("0.00001"),
         "deltaMinBid", new BigDecimal("0.00001"))));
-    Assert.assertEquals(404, pattern.getResponse());
+    Assert.assertEquals(404, pattern.getResponse().pattern());
+    Assert.assertEquals(null, pattern.getResponse().price());
+    Assert.assertEquals("activity", pattern.getResponse().type());
   }
 
   @Test
@@ -115,7 +125,9 @@ public class ActivityPatternTest {
         "deltaMinAsk", new BigDecimal("0.00001"),
         "deltaMaxBid", new BigDecimal("0.00005"),
         "deltaMinBid", new BigDecimal("0.00001"))));
-    Assert.assertEquals(201, pattern.getResponse());
+    Assert.assertEquals(201, pattern.getResponse().pattern());
+    Assert.assertEquals(new BigDecimal("0.00012"), pattern.getResponse().price());
+    Assert.assertEquals("activity", pattern.getResponse().type());
   }
 
   @Test
@@ -128,7 +140,9 @@ public class ActivityPatternTest {
         "deltaMinAsk", new BigDecimal("0.00001"),
         "deltaMaxBid", new BigDecimal("0.00003"),
         "deltaMinBid", new BigDecimal("0.00001"))));
-    Assert.assertEquals(404, pattern.getResponse());
+    Assert.assertEquals(404, pattern.getResponse().pattern());
+    Assert.assertEquals(null, pattern.getResponse().price());
+    Assert.assertEquals("activity", pattern.getResponse().type());
   }
 
   @Test
@@ -141,7 +155,9 @@ public class ActivityPatternTest {
         "deltaMinAsk", new BigDecimal("0.00001"),
         "deltaMaxBid", new BigDecimal("0.00005"),
         "deltaMinBid", new BigDecimal("0.00001"))));
-    Assert.assertEquals(404, pattern.getResponse());
+    Assert.assertEquals(404, pattern.getResponse().pattern());
+    Assert.assertEquals(null, pattern.getResponse().price());
+    Assert.assertEquals("activity", pattern.getResponse().type());
   }
 
   @Test
@@ -154,7 +170,9 @@ public class ActivityPatternTest {
         "deltaMinAsk", new BigDecimal("0.00001"),
         "deltaMaxBid", new BigDecimal("0.00005"),
         "deltaMinBid", new BigDecimal("0.00001"))));
-    Assert.assertEquals(202, pattern.getResponse());
+    Assert.assertEquals(202, pattern.getResponse().pattern());
+    Assert.assertEquals(new BigDecimal("0.00012"), pattern.getResponse().price());
+    Assert.assertEquals("activity", pattern.getResponse().type());
   }
 
   @Test
@@ -167,7 +185,9 @@ public class ActivityPatternTest {
         "deltaMinAsk", new BigDecimal("0.00001"),
         "deltaMaxBid", new BigDecimal("0.00001"),
         "deltaMinBid", new BigDecimal("0.00001"))));
-    Assert.assertEquals(404, pattern.getResponse());
+    Assert.assertEquals(404, pattern.getResponse().pattern());
+    Assert.assertEquals(null, pattern.getResponse().price());
+    Assert.assertEquals("activity", pattern.getResponse().type());
   }
 
 }
