@@ -41,11 +41,11 @@ public class Tick {
   @Column(columnDefinition = "decimal(7,5)", name = "BID")
   private BigDecimal bid;
 
-  /**
-   * время тика в мс(на входе в контроллер)
-   */
-  @Column(name = "TIMESTAMP")
-  private Long timestamp;
+//  /**
+//   * время тика в мс(на входе в контроллер)
+//   */
+//  @Column(name = "TIMESTAMP")
+//  private Long timestamp;
 
   /**
    * Время последнего обновления цен
@@ -89,7 +89,7 @@ public class Tick {
         "id=" + id +
         ", priceAsk=" + ask +
         ", priceBid=" + bid +
-        ", timestamp=" + timestamp +
+        //", timestamp=" + timestamp +
         '}';
   }
 }

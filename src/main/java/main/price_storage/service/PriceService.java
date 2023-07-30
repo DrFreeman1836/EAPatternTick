@@ -43,7 +43,7 @@ public class PriceService {
     Tick tick = Tick.builder()
         .ask(tickDto.getAsk())
         .bid(tickDto.getBid())
-        .timestamp(System.currentTimeMillis())
+        //.timestamp(System.currentTimeMillis())
         .time(tickDto.getTime())
         .timeMsc(tickDto.getTimeMsc())
         .flags(tickDto.getFlags())
