@@ -3,6 +3,7 @@ package patterns.service;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import main.pattern.dto.RsSignal.Signal;
 import main.pattern.enam.TypeSignalMulti;
 import main.pattern.enam.TypeSignalPassivity;
 import main.pattern.service.impl.multi.MultiPattern;
@@ -25,6 +26,11 @@ public class PassivityPatternTest {
 
   @Before
   public void setData() throws Exception {
+    TickDto tick00 = new TickDto();
+    tick00.setAsk(new BigDecimal("0.00005"));
+    tick00.setBid(new BigDecimal("0.00006"));
+    storage.processingTick(tick00, -20L);
+
     TickDto tick0 = new TickDto();
     tick0.setAsk(new BigDecimal("0.00005"));
     tick0.setBid(new BigDecimal("0.00006"));
@@ -46,18 +52,18 @@ public class PassivityPatternTest {
     tick4.setBid(new BigDecimal("0.00014"));
     storage.processingTick(tick4, 80L);
     TickDto tick5 = new TickDto();
-    tick5.setAsk(new BigDecimal("0.00013"));
-    tick5.setBid(new BigDecimal("0.00014"));
+    tick5.setAsk(new BigDecimal("0.00014"));
+    tick5.setBid(new BigDecimal("0.00015"));
     storage.processingTick(tick5, 100L);
     TickDto tick6 = new TickDto();
-    tick6.setAsk(new BigDecimal("0.00013"));
-    tick6.setBid(new BigDecimal("0.00014"));
+    tick6.setAsk(new BigDecimal("0.00016"));
+    tick6.setBid(new BigDecimal("0.00017"));
     storage.processingTick(tick6, 120L);
   }
 
   /**
    залипание - Проверка на больше чем Ннное количество тиков в заданное колличество миллисекунд - если проверка пройдена
-   проверяем новую переменную времени в которой было не больше чем заданное колличество тиков в ед времени.
+   проверяем новую переменную времени в которой было меньше чем заданное колличество тиков в ед времени.
    ставим разноцветные нолики - по аску по биду или вместе в настройках
    */
 
@@ -65,39 +71,42 @@ public class PassivityPatternTest {
   @Order(1)
   public void patternTest() {
     pattern.setParams(new HashMap<>(Map.of(
-        "timeFirst", 100,
+        "timeFirst", 80,
         "countFirst", 5,
-        "timeSecond", 20,
+        "timeSecond", 40,
         "countSecond", 2)));
-    Assert.assertEquals(TypeSignalPassivity.YES_PATTERN.getResponseCode(), pattern.getResponse().pattern());
-    Assert.assertEquals(new BigDecimal("0.00014"), pattern.getResponse().price());
-    Assert.assertEquals("passivity", pattern.getResponse().type());
+    Signal signal = pattern.getResponse();
+    Assert.assertEquals(TypeSignalPassivity.YES_PATTERN.getResponseCode(), signal.pattern());
+    Assert.assertEquals(new BigDecimal("0.00015"), signal.price());
+    Assert.assertEquals("passivity", signal.type());
   }
 
   @Test
   @Order(1)
   public void noPatternTestByFirstPeriod() {
     pattern.setParams(new HashMap<>(Map.of(
-        "timeFirst", 100,
+        "timeFirst", 80,
         "countFirst", 6,
         "timeSecond", 20,
-        "countSecond", 2)));
-    Assert.assertEquals(TypeSignalPassivity.NO_PATTERN.getResponseCode(), pattern.getResponse().pattern());
-    Assert.assertEquals(null, pattern.getResponse().price());
-    Assert.assertEquals("passivity", pattern.getResponse().type());
+        "countSecond", 1)));
+    Signal signal = pattern.getResponse();
+    Assert.assertEquals(TypeSignalPassivity.NO_PATTERN.getResponseCode(), signal.pattern());
+    Assert.assertEquals(null, signal.price());
+    Assert.assertEquals("passivity", signal.type());
   }
 
   @Test
   @Order(1)
   public void noPatternTestBySecondPeriod() {
     pattern.setParams(new HashMap<>(Map.of(
-        "timeFirst", 100,
+        "timeFirst", 80,
         "countFirst", 5,
-        "timeSecond", 20,
+        "timeSecond", 40,
         "countSecond", 1)));
-    Assert.assertEquals(TypeSignalPassivity.NO_PATTERN.getResponseCode(), pattern.getResponse().pattern());
-    Assert.assertEquals(null, pattern.getResponse().price());
-    Assert.assertEquals("passivity", pattern.getResponse().type());
+    Signal signal = pattern.getResponse();
+    Assert.assertEquals(TypeSignalPassivity.NO_PATTERN.getResponseCode(), signal.pattern());
+    Assert.assertEquals(null, signal.price());
+    Assert.assertEquals("passivity", signal.type());
   }
 
 }

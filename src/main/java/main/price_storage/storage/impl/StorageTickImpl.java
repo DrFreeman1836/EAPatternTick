@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -34,9 +35,9 @@ public class StorageTickImpl implements StorageTick {
         .build();
 
     if (listTicks.size() >= SIZE_LIST_TICKS) {
-      listTicks.pollFirst();
+      listTicks.pollLast();
     }
-    listTicks.addLast(tick);
+    listTicks.addFirst(tick);
 
   }
 
@@ -53,20 +54,21 @@ public class StorageTickImpl implements StorageTick {
     //TODO: Тут возникал ConcurrentModificationException, исправить синхронизацию
     synchronized (listTicks) {
       return new ArrayList<>(
-          listTicks.stream().skip(listTicks.size() - count).collect(Collectors.toList()));
+          listTicks.stream().limit(count).collect(Collectors.toList()));
     }
   }
 
   /**
    * Возвращает тики в указанном диапозоне времени
-   * @param timeFrom
+   * @param timeFromTick время последнего тика второго периода от него ищем первый тик
    * @param timeTo
    * @return
    */
-  public List<Tick> getListTickByTime(Long timeFrom, Long timeTo) {
+  public List<Tick> getListTickByTime(Long timeFromTick, Long timeTo) {
     synchronized (listTicks) {
+      Long timeFrom = listTicks.stream().filter(t -> t.getTimestamp() < timeFromTick).findFirst().get().getTimestamp();
       return new ArrayList<>(listTicks.stream()
-          .filter(t -> t.getTimestamp() <= timeFrom && t.getTimestamp() >= timeTo).toList());
+          .filter(t -> t.getTimestamp() <= timeFrom && t.getTimestamp() >= timeFrom - timeTo).toList());
     }
   }
 
@@ -77,12 +79,22 @@ public class StorageTickImpl implements StorageTick {
    */
   public List<Tick> getListTickByTimeFromLastTick(Long timeTo) {
     synchronized (listTicks) {
-      Long timeStartSelection = listTicks.getLast().getTimestamp();
+      Long timeStartSelection = listTicks.getFirst().getTimestamp();
       return new ArrayList<>(listTicks.stream()
-          .filter(t -> t.getTimestamp() <= timeStartSelection
+          .filter(t -> t.getTimestamp() < timeStartSelection
               && t.getTimestamp() >= timeStartSelection - timeTo).toList());
     }
   }
+
+//  public HashMap<String, List<Tick>> getListsByPassivity() {
+//    HashMap<String, List<Tick>> res = new HashMap<>();
+//    res.put("second", null);
+//    res.put("first", null);
+//    synchronized (listTicks) {
+//      res.put("second", new ArrayList<>());
+//    }
+//    return res;
+//  }
 
   //@PostConstruct
   private void initTick() throws Exception {
