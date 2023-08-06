@@ -66,9 +66,9 @@ public class StorageTickImpl implements StorageTick {
    */
   public List<Tick> getListTickByTime(Long timeFromTick, Long timeTo) {
     synchronized (listTicks) {
-      Long timeFrom = listTicks.stream().filter(t -> t.getTimestamp() < timeFromTick).findFirst().get().getTimestamp();
+      Long timeFrom = listTicks.stream().filter(t -> t.getTimeMsc() < timeFromTick).findFirst().get().getTimeMsc();
       return new ArrayList<>(listTicks.stream()
-          .filter(t -> t.getTimestamp() <= timeFrom && t.getTimestamp() >= timeFrom - timeTo).toList());
+          .filter(t -> t.getTimeMsc() <= timeFrom && t.getTimeMsc() >= timeFrom - timeTo).toList());
     }
   }
 
@@ -79,10 +79,10 @@ public class StorageTickImpl implements StorageTick {
    */
   public List<Tick> getListTickByTimeFromLastTick(Long timeTo) {
     synchronized (listTicks) {
-      Long timeStartSelection = listTicks.getFirst().getTimestamp();
+      Long timeStartSelection = listTicks.getFirst().getTimeMsc();
       return new ArrayList<>(listTicks.stream()
-          .filter(t -> t.getTimestamp() < timeStartSelection
-              && t.getTimestamp() >= timeStartSelection - timeTo).toList());
+          .filter(t -> t.getTimeMsc() < timeStartSelection
+              && t.getTimeMsc() >= timeStartSelection - timeTo).toList());
     }
   }
 
@@ -101,30 +101,37 @@ public class StorageTickImpl implements StorageTick {
     TickDto tick0 = new TickDto();
     tick0.setAsk(new BigDecimal("0.00005"));
     tick0.setBid(new BigDecimal("0.00006"));
+    tick0.setTimeMsc(0L);
     processingTick(tick0, 0L);
     TickDto tick1 = new TickDto();
     tick1.setAsk(new BigDecimal("0.00007"));
     tick1.setBid(new BigDecimal("0.00008"));
+    tick1.setTimeMsc(20L);
     processingTick(tick1, 20L);
     TickDto tick2 = new TickDto();
     tick2.setAsk(new BigDecimal("0.00009"));
     tick2.setBid(new BigDecimal("0.00010"));
+    tick2.setTimeMsc(40L);
     processingTick(tick2, 40L);
     TickDto tick3 = new TickDto();
     tick3.setAsk(new BigDecimal("0.00011"));
     tick3.setBid(new BigDecimal("0.00012"));
+    tick3.setTimeMsc(60L);
     processingTick(tick3, 60L);
     TickDto tick4 = new TickDto();
     tick4.setAsk(new BigDecimal("0.00013"));
     tick4.setBid(new BigDecimal("0.00014"));
+    tick4.setTimeMsc(80L);
     processingTick(tick4, 80L);
     TickDto tick5 = new TickDto();
     tick5.setAsk(new BigDecimal("0.00013"));
     tick5.setBid(new BigDecimal("0.00014"));
+    tick5.setTimeMsc(100L);
     processingTick(tick5, 100L);
     TickDto tick6 = new TickDto();
     tick6.setAsk(new BigDecimal("0.00013"));
     tick6.setBid(new BigDecimal("0.00014"));
+    tick6.setTimeMsc(120L);
     processingTick(tick6, 120L);
   }
 

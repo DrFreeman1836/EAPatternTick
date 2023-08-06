@@ -18,7 +18,7 @@ public class PriceService {
 
   private final ObjectMapper mapper = new ObjectMapper();
 
-  private final static Integer COUNT_TICK = 5000;
+  private final static Integer COUNT_TICK = 10000;
 
   @Qualifier("storageTickImpl")
   private final StorageTick storageTickImpl;
@@ -26,10 +26,10 @@ public class PriceService {
   private final TickRepository tickRepository;
 
 
-  public void addPrice(byte[] msg) throws Exception {
+  public void addPrice(byte[] msg, long currentTime) throws Exception {
 
     TickDto tick = mapper.readValue(msg, TickDto.class);
-    storageTickImpl.processingTick(tick, System.currentTimeMillis());
+    storageTickImpl.processingTick(tick, currentTime);
     addTick(tick);
 
     if (listTick.size() >= COUNT_TICK) {

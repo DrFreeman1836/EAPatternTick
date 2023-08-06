@@ -18,8 +18,9 @@ public class TcpInputService {
 
   @ServiceActivator(inputChannel = "fromTcp")
   public void handleMessage(byte[] msg) {
+    long currentTime = System.currentTimeMillis();
     try {
-      priceService.addPrice(msg);
+      priceService.addPrice(msg, currentTime);
     } catch (IOException e) {
       logger.error("вход: " + new String(msg) + "\n выход: " + e.getMessage());
     } catch (Exception e) {
