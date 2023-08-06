@@ -89,7 +89,6 @@ public class Tick {
         "id=" + id +
         ", priceAsk=" + ask +
         ", priceBid=" + bid +
-        ", timestamp=" + timestamp +
         '}';
   }
 }

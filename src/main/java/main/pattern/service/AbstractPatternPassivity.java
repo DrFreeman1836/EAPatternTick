@@ -46,7 +46,7 @@ public abstract class AbstractPatternPassivity implements PatternPrice {
   private void getSelection() {
     listTicksSecondPeriod = tickManagerService.getListTickByTimeFromLastTick(timeSecond);
 
-    Long timeStartByFirstList = listTicksSecondPeriod.get(listTicksSecondPeriod.size()-1).getTimestamp();
+    Long timeStartByFirstList = listTicksSecondPeriod.get(listTicksSecondPeriod.size()-1).getTimeMsc();
     listTicksFirstPeriod = tickManagerService.getListTickByTime(timeStartByFirstList, timeFirst);
     this.lastPrice = listTicksSecondPeriod.get(0).getBid();
   }

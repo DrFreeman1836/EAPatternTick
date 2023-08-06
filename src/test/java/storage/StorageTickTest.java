@@ -23,30 +23,37 @@ public class StorageTickTest {
     TickDto tick0 = new TickDto();
     tick0.setAsk(new BigDecimal("0.00005"));
     tick0.setBid(new BigDecimal("0.00006"));
+    tick0.setTimeMsc(0L);
     storage.processingTick(tick0, 0L);
     TickDto tick1 = new TickDto();
     tick1.setAsk(new BigDecimal("0.00007"));
     tick1.setBid(new BigDecimal("0.00008"));
+    tick1.setTimeMsc(20L);
     storage.processingTick(tick1, 20L);
     TickDto tick2 = new TickDto();
     tick2.setAsk(new BigDecimal("0.00009"));
     tick2.setBid(new BigDecimal("0.00010"));
+    tick2.setTimeMsc(40L);
     storage.processingTick(tick2, 40L);
     TickDto tick3 = new TickDto();
     tick3.setAsk(new BigDecimal("0.00011"));
     tick3.setBid(new BigDecimal("0.00012"));
+    tick3.setTimeMsc(60L);
     storage.processingTick(tick3, 60L);
     TickDto tick4 = new TickDto();
     tick4.setAsk(new BigDecimal("0.00013"));
     tick4.setBid(new BigDecimal("0.00014"));
+    tick4.setTimeMsc(80L);
     storage.processingTick(tick4, 80L);
     TickDto tick5 = new TickDto();
     tick5.setAsk(new BigDecimal("0.00013"));
     tick5.setBid(new BigDecimal("0.00014"));
+    tick5.setTimeMsc(100L);
     storage.processingTick(tick5, 100L);
     TickDto tick6 = new TickDto();
     tick6.setAsk(new BigDecimal("0.00013"));
     tick6.setBid(new BigDecimal("0.00014"));
+    tick6.setTimeMsc(120L);
     storage.processingTick(tick6, 120L);
   }
 
@@ -56,6 +63,7 @@ public class StorageTickTest {
     TickDto tick = new TickDto();
     tick.setAsk(new BigDecimal("0.00015"));
     tick.setBid(new BigDecimal("0.00016"));
+    tick.setTimeMsc(140L);
     storage.processingTick(tick, 140L);
 
     List<Tick> lastTicks = storage.getListTickByCount(5);
@@ -63,7 +71,7 @@ public class StorageTickTest {
 
     Assert.assertEquals(new BigDecimal("0.00015"), lastTicks.get(0).getAsk());
     Assert.assertEquals(new BigDecimal("0.00016"), lastTicks.get(0).getBid());
-    Assert.assertEquals(Long.valueOf(140), lastTicks.get(0).getTimestamp());
+    Assert.assertEquals(Long.valueOf(140), lastTicks.get(0).getTimeMsc());
   }
 
   @Test
@@ -80,12 +88,12 @@ public class StorageTickTest {
     Tick tick2 = new Tick();
     tick2.setAsk(new BigDecimal("0.00013"));
     tick2.setBid(new BigDecimal("0.00014"));
-    tick2.setTimestamp(120L);
+    tick2.setTimeMsc(120L);
     expectedList.add(tick2);
     Tick tick = new Tick();
     tick.setAsk(new BigDecimal("0.00013"));
     tick.setBid(new BigDecimal("0.00014"));
-    tick.setTimestamp(100L);
+    tick.setTimeMsc(100L);
     expectedList.add(tick);
     Assert.assertEquals(expectedList, actualList);
   }

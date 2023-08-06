@@ -101,13 +101,13 @@ public abstract class AbstractPatternActivity implements PatternPrice {
         .get().getBid();
 
     maxTime = listTicks.stream()
-        .max(Comparator.comparing(Tick::getTimestamp))
-        .get().getTimestamp();
+        .max(Comparator.comparing(Tick::getTimeMsc))
+        .get().getTimeMsc();
     minTime = listTicks.stream()
-        .min(Comparator.comparing(Tick::getTimestamp))
-        .get().getTimestamp();
-    this.lastPriceAsk = listTicks.get(listTicks.size()-1).getAsk();
-    this.lastPriceBid = listTicks.get(listTicks.size()-1).getBid();
+        .min(Comparator.comparing(Tick::getTimeMsc))
+        .get().getTimeMsc();
+    this.lastPriceAsk = listTicks.get(0).getAsk();
+    this.lastPriceBid = listTicks.get(0).getBid();
   }
 
   private boolean checkPatternAsk() {
