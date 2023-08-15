@@ -4,10 +4,9 @@ import java.math.BigDecimal;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
 import main.price_storage.dto.TickDto;
 import main.price_storage.model.Tick;
 import main.price_storage.storage.StorageTick;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class StorageTickImpl implements StorageTick {
 
-  private final Deque<Tick> listTicks = new ArrayDeque<>();
+  private final LinkedBlockingDeque<Tick> listTicks = new LinkedBlockingDeque<>();
 
   private final int SIZE_LIST_TICKS = 5000;
 
@@ -52,10 +51,8 @@ public class StorageTickImpl implements StorageTick {
    */
   public List<Tick> getListTickByCount(int count) {
     //TODO: Тут возникал ConcurrentModificationException, исправить синхронизацию
-    synchronized (listTicks) {
-      return new ArrayList<>(
-          listTicks.stream().limit(count).collect(Collectors.toList()));
-    }
+    return new ArrayList<>(
+        listTicks.stream().limit(count).collect(Collectors.toList()));
   }
 
   /**
@@ -65,11 +62,9 @@ public class StorageTickImpl implements StorageTick {
    * @return
    */
   public List<Tick> getListTickByTime(Long timeFromTick, Long timeTo) {
-    synchronized (listTicks) {
-      Long timeFrom = listTicks.stream().filter(t -> t.getTimeMsc() < timeFromTick).findFirst().get().getTimeMsc();
-      return new ArrayList<>(listTicks.stream()
-          .filter(t -> t.getTimeMsc() <= timeFrom && t.getTimeMsc() >= timeFrom - timeTo).toList());
-    }
+    Long timeFrom = listTicks.stream().filter(t -> t.getTimeMsc() < timeFromTick).findFirst().get().getTimeMsc();
+    return new ArrayList<>(listTicks.stream()
+        .filter(t -> t.getTimeMsc() <= timeFrom && t.getTimeMsc() >= timeFrom - timeTo).toList());
   }
 
   /**
@@ -78,12 +73,10 @@ public class StorageTickImpl implements StorageTick {
    * @return
    */
   public List<Tick> getListTickByTimeFromLastTick(Long timeTo) {
-    synchronized (listTicks) {
-      Long timeStartSelection = listTicks.getFirst().getTimeMsc();
-      return new ArrayList<>(listTicks.stream()
-          .filter(t -> t.getTimeMsc() < timeStartSelection
-              && t.getTimeMsc() >= timeStartSelection - timeTo).toList());
-    }
+    Long timeStartSelection = listTicks.getFirst().getTimeMsc();
+    return new ArrayList<>(listTicks.stream()
+        .filter(t -> t.getTimeMsc() < timeStartSelection
+            && t.getTimeMsc() >= timeStartSelection - timeTo).toList());
   }
 
 //  public HashMap<String, List<Tick>> getListsByPassivity() {
