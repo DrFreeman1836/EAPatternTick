@@ -25,6 +25,10 @@ public class RsSignal {
     return listSignal;
   }
 
-  public record Signal(BigDecimal price, String type, int pattern, TypeTrend trend){}
+  public record Signal(BigDecimal price, String type, int pattern, TypeTrend trend, BigDecimal kRatio){
+    public Signal(BigDecimal price, String type, int pattern, TypeTrend trend) {
+      this(price, type, pattern, trend, null);
+    }
+  }
 
 }
