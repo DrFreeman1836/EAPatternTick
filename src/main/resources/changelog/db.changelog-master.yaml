@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: changeset/alter_tick_ask.sql
+      relativeToChangelogFile: true
+  - include:
+      file: changeset/alter_tick_bid.sql
+      relativeToChangelogFile: true

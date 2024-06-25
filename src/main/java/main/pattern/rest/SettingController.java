@@ -33,7 +33,28 @@ public class SettingController {
   @Qualifier("multiPattern")
   private final  PatternPrice multiPattern;
 
+  @Qualifier("arrowPattern")
+  private final  PatternPrice arrowPattern;
+
   private final Logger logger = LoggerFactory.getLogger(SettingController.class);
+
+  @PutMapping("/arrow")
+  public ResponseEntity<?> setSettingArrow(
+      @RequestParam(name = "deltaTimeArrow") Long deltaTimeArrow,
+      @RequestParam(name = "kRatio") BigDecimal kRatio,
+      @RequestParam(name = "minAverage") BigDecimal minAverage
+  ) {
+    try {
+      arrowPattern.setParams(new HashMap<>(Map.of(
+          "deltaTimeArrow", deltaTimeArrow == null ? arrowPattern.getParams().get("deltaTimeArrow") : deltaTimeArrow,
+          "kRatio", kRatio == null ? arrowPattern.getParams().get("kRatio") : kRatio,
+          "minAverage", minAverage == null ? arrowPattern.getParams().get("minAverage") : minAverage)));
+    } catch (Exception e) {
+      logger.error("arrow no set settings, error: " + e.getMessage());
+      return ResponseEntity.status(400).build();
+    }
+    return ResponseEntity.ok().build();
+  }
 
   @PutMapping("/activity")
   public ResponseEntity<?> setActivityPattern(

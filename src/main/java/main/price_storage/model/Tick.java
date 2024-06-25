@@ -34,12 +34,22 @@ public class Tick {
    */
   @Column(columnDefinition = "decimal(7,5)", name = "ASK")
   private BigDecimal ask;
+  /**
+   * размер тика Ask в зависимости от предыдущего
+   */
+  @Column(columnDefinition = "decimal(7,5)", name = "SIZE_ASK")
+  private BigDecimal sizeAsk;
 
   /**
    * цена Bid
    */
   @Column(columnDefinition = "decimal(7,5)", name = "BID")
   private BigDecimal bid;
+  /**
+   * размер тика Bid в зависимости от предыдущего
+   */
+  @Column(columnDefinition = "decimal(7,5)", name = "SIZE_BID")
+  private BigDecimal sizeBid;
 
   /**
    * время тика в мс(на входе в контроллер)

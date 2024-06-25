@@ -9,7 +9,7 @@ server:
 
 spring.datasource.url: jdbc:mysql://localhost:3306/ea_pattern
 spring.datasource.username: root
-spring.datasource.password: hWN-h2z-aPE-8dQ
+spring.datasource.password: password
 spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
 spring.jpa.hibernate.ddl-auto: update
 spring.jpa.show-sql: false

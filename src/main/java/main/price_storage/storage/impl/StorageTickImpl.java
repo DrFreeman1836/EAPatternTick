@@ -7,6 +7,7 @@ import java.util.Deque;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import main.price_storage.dto.TickDto;
 import main.price_storage.model.Tick;
 import main.price_storage.storage.StorageTick;
@@ -17,10 +18,11 @@ public class StorageTickImpl implements StorageTick {
 
   private final LinkedBlockingDeque<Tick> listTicks = new LinkedBlockingDeque<>();
 
-  private final int SIZE_LIST_TICKS = 5000;
+  private static final int SIZE_LIST_TICKS = 5000;
 
   public void processingTick(TickDto tickDto, Long timestamp) throws Exception {
 
+    Tick lasTick = listTicks.peekFirst();
     Tick tick = Tick.builder()
         .ask(tickDto.getAsk())
         .bid(tickDto.getBid())
@@ -31,6 +33,8 @@ public class StorageTickImpl implements StorageTick {
         .last(tickDto.getLast())
         .volume(tickDto.getVolume())
         .volumeReal(tickDto.getVolumeReal())
+        .sizeAsk(lasTick != null ? tickDto.getAsk().subtract(lasTick.getAsk()) : null)
+        .sizeBid(lasTick != null ? tickDto.getBid().subtract(lasTick.getBid()) : null)
         .build();
 
     if (listTicks.size() >= SIZE_LIST_TICKS) {
@@ -79,15 +83,12 @@ public class StorageTickImpl implements StorageTick {
             && t.getTimeMsc() >= timeStartSelection - timeTo).toList());
   }
 
-//  public HashMap<String, List<Tick>> getListsByPassivity() {
-//    HashMap<String, List<Tick>> res = new HashMap<>();
-//    res.put("second", null);
-//    res.put("first", null);
-//    synchronized (listTicks) {
-//      res.put("second", new ArrayList<>());
-//    }
-//    return res;
-//  }
+  public List<Tick> getListTickByTimeFromLastTickArrow(Long timeTo) {
+    Long timeStartSelection = listTicks.getFirst().getTimeMsc();
+    return new ArrayList<>(listTicks.stream()
+        .filter(t -> t.getTimeMsc() <= timeStartSelection
+            && t.getTimeMsc() >= timeStartSelection - timeTo).toList());
+  }
 
   //@PostConstruct
   private void initTick() throws Exception {
@@ -97,8 +98,8 @@ public class StorageTickImpl implements StorageTick {
     tick0.setTimeMsc(0L);
     processingTick(tick0, 0L);
     TickDto tick1 = new TickDto();
-    tick1.setAsk(new BigDecimal("0.00007"));
-    tick1.setBid(new BigDecimal("0.00008"));
+    tick1.setAsk(new BigDecimal("0.00004"));
+    tick1.setBid(new BigDecimal("0.00005"));
     tick1.setTimeMsc(20L);
     processingTick(tick1, 20L);
     TickDto tick2 = new TickDto();
@@ -107,23 +108,23 @@ public class StorageTickImpl implements StorageTick {
     tick2.setTimeMsc(40L);
     processingTick(tick2, 40L);
     TickDto tick3 = new TickDto();
-    tick3.setAsk(new BigDecimal("0.00011"));
-    tick3.setBid(new BigDecimal("0.00012"));
+    tick3.setAsk(new BigDecimal("0.00015"));
+    tick3.setBid(new BigDecimal("0.00016"));
     tick3.setTimeMsc(60L);
     processingTick(tick3, 60L);
     TickDto tick4 = new TickDto();
-    tick4.setAsk(new BigDecimal("0.00013"));
-    tick4.setBid(new BigDecimal("0.00014"));
+    tick4.setAsk(new BigDecimal("0.00015"));
+    tick4.setBid(new BigDecimal("0.00016"));
     tick4.setTimeMsc(80L);
     processingTick(tick4, 80L);
     TickDto tick5 = new TickDto();
-    tick5.setAsk(new BigDecimal("0.00013"));
-    tick5.setBid(new BigDecimal("0.00014"));
+    tick5.setAsk(new BigDecimal("0.00014"));
+    tick5.setBid(new BigDecimal("0.00015"));
     tick5.setTimeMsc(100L);
     processingTick(tick5, 100L);
     TickDto tick6 = new TickDto();
-    tick6.setAsk(new BigDecimal("0.00013"));
-    tick6.setBid(new BigDecimal("0.00014"));
+    tick6.setAsk(new BigDecimal("0.00017"));
+    tick6.setBid(new BigDecimal("0.00016"));
     tick6.setTimeMsc(120L);
     processingTick(tick6, 120L);
   }

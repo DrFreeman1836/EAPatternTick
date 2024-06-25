@@ -29,6 +29,9 @@ public class Controller {
   @Qualifier("multiPattern")
   private final PatternPrice multiPattern;
 
+  @Qualifier("arrowPattern")
+  private final  PatternPrice arrowPattern;
+
   private final TelegramBotMessages bot;
 
   private final Logger logger = LoggerFactory.getLogger(Controller.class);
@@ -38,7 +41,8 @@ public class Controller {
   public ResponseEntity<RsSignal> getPatterns(
       @RequestParam(name = "activity") Boolean activity,
       @RequestParam(name = "passivity") Boolean passivity,
-      @RequestParam(name = "multi") Boolean multi) {
+      @RequestParam(name = "multi") Boolean multi,
+      @RequestParam(name = "arrow") Boolean arrow) {
 
     RsSignal rsSignal = new RsSignal();
     StringBuilder sbLog = new StringBuilder();
@@ -60,6 +64,12 @@ public class Controller {
         buildResponse(rsSignal, sbLog, res);
       }
     }
+    if (arrow) {
+      Signal res = arrowPattern.getResponse();
+      if (checkResponse(res.pattern())) {
+        buildResponse(rsSignal, sbLog, res);
+      }
+    }
 
     if (!sbLog.isEmpty()) {
       logger.info(sbLog.toString());
@@ -74,7 +84,7 @@ public class Controller {
 
   private void buildResponse(RsSignal rsSignal, StringBuilder sb, Signal signal) {
     rsSignal.addSignal(signal);
-    sb.append(String.format("%s: %s trend: %s", signal.type(), signal.pattern(), signal.trend())).append("\n");
+    sb.append(String.format("%s: %s trend: %s kRation: %s", signal.type(), signal.pattern(), signal.trend(), signal.kRatio() == null ? null : signal.kRatio())).append("\n");
   }
 
 }
