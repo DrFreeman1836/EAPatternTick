@@ -14,14 +14,32 @@ import org.springframework.integration.ip.dsl.Tcp;
 @IntegrationComponentScan
 public class TcpConfig {
 
-  private static final int TCP_SERVER_PORT = 8081;
+  private static final int TCP_EUR_USR = 8081;
+  private static final int TCP_USD_JPA = 8082;
+  private static final int TCP_AUD_USD = 8083;
 
   @Bean
-  public IntegrationFlow tcpInboundFlow() {
-    return IntegrationFlows.from(Tcp.inboundAdapter(Tcp.netServer(TCP_SERVER_PORT)))
-        .channel("application.fromTcp")
-        .handle("tcpInputService", "handleMessage")
+  public IntegrationFlow tcpInboundFlow1() {
+    return IntegrationFlows.from(Tcp.inboundAdapter(Tcp.netServer(TCP_EUR_USR)))
+        .channel("application.EUR_USD")
+        .handle("tcpInputService", "handleMessage1")
         .get();
+  }
+
+  @Bean
+  public IntegrationFlow tcpInboundFlow2() {
+    return IntegrationFlows.from(Tcp.inboundAdapter(Tcp.netServer(TCP_USD_JPA)))
+            .channel("application.USD_JPA")
+            .handle("tcpInputService", "handleMessage2")
+            .get();
+  }
+
+  @Bean
+  public IntegrationFlow tcpInboundFlow3() {
+    return IntegrationFlows.from(Tcp.inboundAdapter(Tcp.netServer(TCP_AUD_USD)))
+            .channel("application.AUD_USD")
+            .handle("tcpInputService", "handleMessage3")
+            .get();
   }
 
 

@@ -16,8 +16,32 @@ public class TcpInputService {
 
   private final Logger logger = LoggerFactory.getLogger(TcpInputService.class);
 
-  @ServiceActivator(inputChannel = "fromTcp")
-  public void handleMessage(byte[] msg) {
+  @ServiceActivator(inputChannel = "EUR_USD")
+  public void handleMessage1(byte[] msg) {
+    long currentTime = System.currentTimeMillis();
+    try {
+      priceService.addPrice(msg, currentTime);
+    } catch (IOException e) {
+      logger.error("вход: " + new String(msg) + "\n выход: " + e.getMessage());
+    } catch (Exception e) {
+      logger.error(e.getMessage());
+    }
+  }
+
+  @ServiceActivator(inputChannel = "USD_JPA")
+  public void handleMessage2(byte[] msg) {
+    long currentTime = System.currentTimeMillis();
+    try {
+      priceService.addPrice(msg, currentTime);
+    } catch (IOException e) {
+      logger.error("вход: " + new String(msg) + "\n выход: " + e.getMessage());
+    } catch (Exception e) {
+      logger.error(e.getMessage());
+    }
+  }
+
+  @ServiceActivator(inputChannel = "AUD_USD")
+  public void handleMessage3(byte[] msg) {
     long currentTime = System.currentTimeMillis();
     try {
       priceService.addPrice(msg, currentTime);
